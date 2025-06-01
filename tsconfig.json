@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2022",                  /* 어떤 버전의 JavaScript로 컴파일할지 지정 (최신 Node.js 버전 지원) */
+    "module": "commonjs",                /* 모듈 시스템 (Node.js의 기본값) */
+    "outDir": "./dist",                  /* 컴파일된 JavaScript 파일이 저장될 디렉토리 */
+    "rootDir": "./src",                  /* TypeScript 소스 파일이 있는 디렉토리 */
+    "strict": true,                      /* 엄격한 타입 검사 활성화 (권장) */
+    "esModuleInterop": true,             /* CommonJS와 ES Modules 간의 상호 운용성 활성화 */
+    "skipLibCheck": true,                /* 선언 파일(*.d.ts) 타입 검사 건너뛰기 */
+    "forceConsistentCasingInFileNames": true, /* 파일 이름 대소문자 일관성 강제 */
+    "sourceMap": true,                    /* 소스 맵 생성 (디버깅 용이) */
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts"                        /* 컴파일할 TypeScript 파일 경로 */
+  ],
+  "exclude": [
+    "node_modules"                       /* 컴파일에서 제외할 디렉토리 */
+  ]
+}

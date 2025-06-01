@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="GPS Emulator" version="1.1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+    <trk>
+        <name>Namsan Loop</name>
+        <trkseg>
+            <trkpt lat="37.5508" lon="126.9930">
+                <ele>100</ele>
+                <time>2025-05-29T05:00:00Z</time>
+            </trkpt>
+            <trkpt lat="37.5515" lon="126.9960">
+                <ele>110</ele>
+                <time>2025-05-29T05:00:10Z</time>
+            </trkpt>
+            <trkpt lat="37.5522" lon="126.9990">
+                <ele>120</ele>
+                <time>2025-05-29T05:00:20Z</time>
+            </trkpt>
+            <trkpt lat="37.5528" lon="127.0020">
+                <ele>130</ele>
+                <time>2025-05-29T05:00:30Z</time>
+            </trkpt>
+            <trkpt lat="37.5535" lon="127.0050">
+                <ele>140</ele>
+                <time>2025-05-29T05:00:40Z</time>
+            </trkpt>
+            <trkpt lat="37.5540" lon="127.0070">
+                <ele>150</ele>
+                <time>2025-05-29T05:00:50Z</time>
+            </trkpt>
+            <trkpt lat="37.5542" lon="127.0090">
+                <ele>160</ele>
+                <time>2025-05-29T05:01:00Z</time>
+            </trkpt>
+            <trkpt lat="37.5538" lon="127.0110">
+                <ele>170</ele>
+                <time>2025-05-29T05:01:10Z</time>
+            </trkpt>
+            <trkpt lat="37.5530" lon="127.0120">
+                <ele>180</ele>
+                <time>2025-05-29T05:01:20Z</time>
+            </trkpt>
+            <trkpt lat="37.5520" lon="127.0115">
+                <ele>175</ele>
+                <time>2025-05-29T05:01:30Z</time>
+            </trkpt>
+            <trkpt lat="37.5510" lon="127.0100">
+                <ele>170</ele>
+                <time>2025-05-29T05:01:40Z</time>
+            </trkpt>
+            <trkpt lat="37.5500" lon="127.0080">
+                <ele>160</ele>
+                <time>2025-05-29T05:01:50Z</time>
+            </trkpt>
+            <trkpt lat="37.5490" lon="127.0060">
+                <ele>150</ele>
+                <time>2025-05-29T05:02:00Z</time>
+            </trkpt>
+            <trkpt lat="37.5480" lon="127.0040">
+                <ele>140</ele>
+                <time>2025-05-29T05:02:10Z</time>
+            </trkpt>
+            <trkpt lat="37.5470" lon="127.0020">
+                <ele>130</ele>
+                <time>2025-05-29T05:02:20Z</time>
+            </trkpt>
+            <trkpt lat="37.5460" lon="127.0000">
+                <ele>120</ele>
+                <time>2025-05-29T05:02:30Z</time>
+            </trkpt>
+            <trkpt lat="37.5450" lon="126.9980">
+                <ele>110</ele>
+                <time>2025-05-29T05:02:40Z</time>
+            </trkpt>
+            <trkpt lat="37.5455" lon="126.9950">
+                <ele>105</ele>
+                <time>2025-05-29T05:02:50Z</time>
+            </trkpt>
+            <trkpt lat="37.5470" lon="126.9935">
+                <ele>100</ele>
+                <time>2025-05-29T05:03:00Z</time>
+            </trkpt>
+            <trkpt lat="37.5508" lon="126.9930"> <ele>100</ele>
+                <time>2025-05-29T05:03:10Z</time>
+            </trkpt>
+        </trkseg>
+    </trk>
+</gpx>
