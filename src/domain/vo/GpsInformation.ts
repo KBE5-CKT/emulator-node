@@ -1,37 +1,37 @@
 export class GpsInformation {
-    public vehicleId: string;
-    public latitude: number;
-    public longitude: number;
-    public altitude: number;
-    public speed: number;
-    public direction: number;
-    public distance: number; // 현재 Interval 동안 이동한 거리
-    public totalOdometer: number; // 총 누적 주행 거리 (새로 추가)
-    public intervalAt: Date; // 발생 시각
+  public vehicleId: string;
+  public lat: number;
+  public lon: number;
+  public speed: number; // 현재 시점의 속도 (km/h 스케일)
+  public direction: number; // 현재 시점의 방향 (0-360도)
+  public totalDistance: number; // 시뮬레이션 시작부터의 누적 총 주행 거리 (미터)
+  public intervalAt: Date; // GPS 정보가 생성된 시간
 
-    constructor(
-        vehicleId: string,
-        latitude: number,
-        longitude: number,
-        altitude: number,
-        speed: number,
-        direction: number,
-        distance: number,
-        totalOdometer: number, // 생성자에 totalOdometer 추가
-        intervalAt: Date
-    ) {
-        this.vehicleId = vehicleId;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.altitude = altitude;
-        this.speed = speed;
-        this.direction = direction;
-        this.distance = distance;
-        this.totalOdometer = totalOdometer; // 필드 할당
-        this.intervalAt = intervalAt;
-    }
-
-    toString(): string {
-        return `GpsInformation{vehicleId='${this.vehicleId}', lat=${this.latitude}, lon=${this.longitude}, alt=${this.altitude}, speed=${this.speed}, direction=${this.direction}, distance=${this.distance}, totalOdometer=${this.totalOdometer}, timestamp=${this.intervalAt.toISOString()}}`;
-    }
+  /**
+   * GPS 정보를 담는 Value Object의 생성자입니다.
+   * @param vehicleId 차량 고유 ID (MDN)
+   * @param lat 위도
+   * @param lon 경도
+   * @param speed 현재 속도 (km/h 스케일, 0-255)
+   * @param direction 현재 방향 (0-360도)
+   * @param totalDistance 시뮬레이션 시작부터 누적된 총 주행 거리 (미터)
+   * @param intervalAt GPS 정보 생성 시간
+   */
+  constructor(
+    vehicleId: string,
+    lat: number,
+    lon: number,
+    speed: number,
+    direction: number,
+    totalDistance: number,
+    intervalAt: Date
+  ) {
+    this.vehicleId = vehicleId;
+    this.lat = lat;
+    this.lon = lon;
+    this.speed = speed;
+    this.direction = direction;
+    this.totalDistance = totalDistance;
+    this.intervalAt = intervalAt;
+  }
 }
