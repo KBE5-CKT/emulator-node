@@ -8,7 +8,7 @@ export class Config {
   public readonly gpxFilePath: string;
 
   public static readonly EMULATOR_INTERVAL_MS: number = 1000; // 1초
-  public static readonly SERVER_SEND_INTERVAL_MS: number = 10000; // 10초
+  public static readonly SERVER_SEND_INTERVAL_MS: number = 60000; // 60초
 
   constructor() {
     const vehicleIdsStr = process.env.VEHICLE_IDS;

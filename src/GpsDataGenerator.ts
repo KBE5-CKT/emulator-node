@@ -151,12 +151,14 @@ export class GpsDataGenerator implements IGpsDataGenerator {
     // --- 경로 종료 조건 확인 ---
     // 현재 인덱스가 마지막 포인트에 도달했고, 현재 구간의 모든 단계를 완료했다면 경로 종료
     if (
-      this.currentTrackPointIndex >= this.gpxTrackPoints.length - 1 &&
-      this.step >= this.totalStepsBetweenPoints
+      this.currentTrackPointIndex >= this.gpxTrackPoints.length - 1
     ) {
       // 경로의 끝에 도달했음을 알림
       return null;
     }
+
+    console.log('currentTrackPointIndex > ', this.currentTrackPointIndex);
+    console.log('gpxTrackPoints > ', this.gpxTrackPoints.length);
 
     // --- 현재 구간의 시작/끝 포인트 가져오기 ---
     const currentPoint = this.gpxTrackPoints[this.currentTrackPointIndex];
