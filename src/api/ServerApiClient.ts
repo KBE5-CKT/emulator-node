@@ -50,7 +50,7 @@ export class ServerApiClient implements IServerApiClient {
 
     try {
       const response = await axios.post<{ mdn: number }>(
-        `${this.serverEndpoint}/api/v1/vehicle/on`,
+        `${this.serverEndpoint}/api/v1/vehicles/collector/on`,
         onRequestBody
       );
       console.log(`[${this.mdn}] ON 요청 성공. 상태: ${response.status}`);
@@ -91,7 +91,7 @@ export class ServerApiClient implements IServerApiClient {
 
     try {
       const response = await axios.post(
-        `${this.serverEndpoint}/api/v1/vehicle/off`,
+        `${this.serverEndpoint}/api/v1/vehicles/collector/off`,
         offRequestBody
       );
       console.log(`[${this.mdn}] OFF 요청 성공. 상태: ${response.status}`);
@@ -134,7 +134,7 @@ export class ServerApiClient implements IServerApiClient {
 
     try {
       const response = await axios.post<any>(
-        `${this.serverEndpoint}/api/v1/vehicle/cycle`,
+        `${this.serverEndpoint}/api/v1/vehicles/collector/cycle`,
         cycleRequestBody
       );
       console.log(`[${this.mdn}] 서버 응답 (cycle): ${response.status}`);
