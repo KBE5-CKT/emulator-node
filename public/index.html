@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>에뮬레이터 제어</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      h1 {
+        color: #333;
+      }
+      .controls button {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .controls button:hover:enabled {
+        opacity: 0.9;
+      }
+      .controls button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+      #startButton {
+        background-color: #28a745;
+        color: white;
+      }
+      #stopButton {
+        background-color: #dc3545;
+        color: white;
+      }
+      .status-display {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .status-running {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      .status-stopped {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>차량 에뮬레이터 제어</h1>
+      <div class="controls">
+        <button id="startButton">시동 ON / 운행 시작</button>
+        <button id="stopButton">시동 OFF / 운행 중지</button>
+      </div>
+      <div id="statusDisplay" class="status-display">상태: 로딩 중...</div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>

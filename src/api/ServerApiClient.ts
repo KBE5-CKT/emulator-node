@@ -4,6 +4,14 @@ import { IServerApiClient } from "../interfaces/IServerApiClient";
 import { GpsInformation } from "../domain/vo/GpsInformation";
 import CommonUtils from "../utils/CommonUtils";
 
+interface ApiResponse<T> {
+  code: string;
+  message: string;
+  data: T;
+}
+
+const CODE_SUCCESS = "000";
+
 export class ServerApiClient implements IServerApiClient {
   private serverEndpoint: string;
   private mdn: string;
@@ -49,15 +57,20 @@ export class ServerApiClient implements IServerApiClient {
     };
 
     try {
-      const response = await axios.post<{ mdn: number }>(
+      const response = await axios.post<ApiResponse<{ mdn: number }>>(
         `${this.serverEndpoint}/api/v1/vehicles/collector/on`,
         onRequestBody
       );
+
+      if (response.data.code !== CODE_SUCCESS) {
+        throw Error(response.data.message);
+      }
+
       console.log(`[${this.mdn}] ON 요청 성공. 상태: ${response.status}`);
-      return response.data.mdn;
+      return response.data.data.mdn;
     } catch (error: any) {
       console.error(`[${this.mdn}] ON 요청 오류: ${error.message}`);
-      return null;
+      throw error;
     }
   }
 
@@ -90,13 +103,19 @@ export class ServerApiClient implements IServerApiClient {
     };
 
     try {
-      const response = await axios.post(
+      const response = await axios.post<ApiResponse<{ mdn: number }>>(
         `${this.serverEndpoint}/api/v1/vehicles/collector/off`,
         offRequestBody
       );
+
+      if (response.data.code !== CODE_SUCCESS) {
+        throw Error(response.data.message);
+      }
+
       console.log(`[${this.mdn}] OFF 요청 성공. 상태: ${response.status}`);
     } catch (error: any) {
       console.error(`[${this.mdn}] OFF 요청 오류: ${error.message}`);
+      throw error;
     }
   }
 
@@ -133,16 +152,19 @@ export class ServerApiClient implements IServerApiClient {
     };
 
     try {
-      const response = await axios.post<any>(
+      const response = await axios.post<ApiResponse<{ mdn: number }>>(
         `${this.serverEndpoint}/api/v1/vehicles/collector/cycle`,
         cycleRequestBody
       );
+
+      if (response.data.code !== CODE_SUCCESS) {
+        throw Error(response.data.message);
+      }
+
       console.log(`[${this.mdn}] 서버 응답 (cycle): ${response.status}`);
     } catch (error: any) {
       console.error(`[${this.mdn}] cycle 데이터 전송 오류: ${error.message}`);
+      throw error;
     }
-    console.log(
-      "------------------------------------------------------------------\n"
-    );
   }
 }
