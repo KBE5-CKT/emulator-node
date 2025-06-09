@@ -105,7 +105,6 @@ export class GpsDataGenerator implements IGpsDataGenerator {
     // GPX 포인트에 시간 정보가 있다면 시간 차이를 기준으로 스텝 계산
     if (currentPoint.time && nextPoint.time) {
       const timeDiffMs = nextPoint.time.getTime() - currentPoint.time.getTime();
-      console.log("timeDiffMs > ", timeDiffMs);
 
       this.totalStepsBetweenPoints = Math.max(
         1,
@@ -127,10 +126,6 @@ export class GpsDataGenerator implements IGpsDataGenerator {
         Math.round(estimatedTimeMs / this.emulatorIntervalMs)
       );
     }
-    console.log(
-      "this.totalStepsBetweenPoints > ",
-      this.totalStepsBetweenPoints
-    );
     this.step = 0;
   }
 
