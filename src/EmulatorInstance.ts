@@ -167,8 +167,22 @@ export class EmulatorInstance {
     this.stopIntervals();
     this.isRunning = false;
 
-    // 남아있는 버퍼 데이터가 있다면 최종 전송 (sendBufferedGpsData를 isFinalSend=true로 호출)
-    await this.sendBufferedGpsData(true);
+    try {
+      await this.sendBufferedGpsData(true);
+
+      const offTime = new Date();
+      const currentGpsInfo = this.gpsGenerator.getCurrentGpsInfo();
+
+      await this.apiClient.sendOffRequest(currentGpsInfo, this.onTime, offTime);
+      console.log(
+        `[${this.vehicleId}] GPX 경로 완료에 따른 시동 OFF 요청 성공.`
+      );
+    } catch (error: any) {
+      console.error(
+        `[${this.vehicleId}] GPX 경로 완료 후 시동 OFF 요청 실패: ${error.message}`,
+        error
+      );
+    }
 
     // GpsDataGenerator를 초기화하여 다음 운행을 처음부터 시작할 수 있도록 준비합니다.
     this.gpsGenerator = new GpsDataGenerator(
