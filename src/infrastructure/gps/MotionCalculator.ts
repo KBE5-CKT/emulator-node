@@ -1,5 +1,5 @@
-import { Gps } from "../domain/vo/Gps";
-import { GpsWithTime } from "../domain/vo/GpsWithTime";
+import { Gps } from "@/domain/vo/Gps";
+import { GpsWithTime } from "@/domain/vo/GpsWithTime";
 
 /**
  * MotionCalculator 클래스는 두 GPS 지점 간의 거리, 속도, 방향을 계산하는 유틸리티 메서드를 제공합니다.
@@ -26,7 +26,7 @@ export class MotionCalculator {
    *
    * @param previous 이전 GPS 지점 (위도, 경도)
    * @param current 현재 GPS 지점 (위도, 경도)
-   * @return 두 지점 간의 이동 거리 (미터 단위, 0 ~ 9,999,999 범위로 제한)
+   * @return 두 지점 간의 이동 거리 (미터 단위, 0 ~ 9,999,999 범위로 제한)a
    */
   public static calculateDistance(previous: Gps, current: Gps): number {
     // 동일 지점인 경우 거리 0

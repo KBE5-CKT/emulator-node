@@ -1,9 +1,11 @@
-import { IGpsDataGenerator } from "./interfaces/IGpsDataGenerator";
-import { GpsInformation } from "./domain/vo/GpsInformation";
-import { Gps } from "./domain/vo/Gps";
-import { GpsWithTime } from "./domain/vo/GpsWithTime";
-import { MotionCalculator } from "./utils/MotionCalculator";
-import { GpxTrackPoint } from "./utils/GpxParser";
+import { GpsInformation } from "@/domain/vo/GpsInformation";
+import { Gps } from "@/domain/vo/Gps";
+import { GpsWithTime } from "@/domain/vo/GpsWithTime";
+
+import { IGpsDataGenerator } from "./IGpsDataGenerator";
+import { MotionCalculator } from "./MotionCalculator";
+
+import { GpxTrackPoint } from "@/utils/GpxParser";
 
 /**
  * GpsDataGenerator 클래스는 GPX 파일 경로를 따라 가상의 차량 GPS 데이터를 생성합니다.

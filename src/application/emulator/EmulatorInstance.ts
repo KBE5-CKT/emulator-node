@@ -1,10 +1,11 @@
 import { setInterval, clearInterval } from "timers";
 
-import { Config } from "./config/Config";
-import { GpsInformation } from "./domain/vo/GpsInformation";
-import { IServerApiClient } from "./interfaces/IServerApiClient";
-import { GpxTrackPoint } from "./utils/GpxParser";
-import { GpsDataGenerator } from "./GpsDataGenerator";
+import { Config } from "@/infrastructure/config/Config";
+import { IServerApiClient } from "@/infrastructure/extenal/IServerApiClient";
+import { GpsDataGenerator } from "@/infrastructure/gps/GpsDataGenerator";
+import { GpsInformation } from "@/domain/vo/GpsInformation";
+
+import { GpxTrackPoint } from "@/utils/GpxParser";
 
 /**
  * 단일 차량 에뮬레이터의 생명 주기와 데이터 전송을 관리합니다.

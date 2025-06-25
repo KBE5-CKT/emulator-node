@@ -1,7 +1,8 @@
-import { Config } from "./config/Config";
-import { GpxParser, GpxTrackPoint } from "./utils/GpxParser";
-import { EmulatorInstance } from "./EmulatorInstance";
-import { ServerApiClient } from "./api/ServerApiClient";
+import { EmulatorInstance } from "./emulator/EmulatorInstance";
+
+import { Config } from "@/infrastructure/config/Config";
+import { ServerApiClient } from "@/infrastructure/extenal/ServerApiClient";
+import { GpxParser, GpxTrackPoint } from "@/utils/GpxParser";
 
 export class App {
   private emulators: EmulatorInstance[] = [];

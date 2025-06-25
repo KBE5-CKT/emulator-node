@@ -1,4 +1,4 @@
-import { GpsInformation } from "../domain/vo/GpsInformation";
+import { GpsInformation } from "@/domain/vo/GpsInformation";
 
 export interface IServerApiClient {
   sendOnRequest(

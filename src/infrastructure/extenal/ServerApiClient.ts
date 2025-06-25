@@ -1,8 +1,8 @@
 import axios from "axios";
 
-import { IServerApiClient } from "../interfaces/IServerApiClient";
-import { GpsInformation } from "../domain/vo/GpsInformation";
-import CommonUtils from "../utils/CommonUtils";
+import { IServerApiClient } from "./IServerApiClient";
+import { GpsInformation } from "@/domain/vo/GpsInformation";
+import CommonUtils from "@/utils/CommonUtils";
 
 interface ApiResponse<T> {
   code: string;

@@ -2,9 +2,9 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import path from "path";
-import { App } from "./App";
 
-import { EmulatorState } from "./types/type";
+import { App } from "./application/App";
+import { EmulatorState } from "./application/emulator/type";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
