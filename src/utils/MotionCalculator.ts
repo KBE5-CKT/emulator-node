@@ -1,20 +1,25 @@
-import { GpsInformation } from "@/domain/vo/GpsInformation";
+import { Gps } from "../domain/vo/Gps";
+import { GpsWithTime } from "../domain/vo/GpsWithTime";
 
+/**
+ * MotionCalculator 클래스는 두 GPS 지점 간의 거리, 속도, 방향을 계산하는 유틸리티 메서드를 제공합니다.
+ * 이 클래스는 순수 함수로 구성되며, 외부 상태에 의존하지 않습니다.
+ */
 export class MotionCalculator {
   // --- 공통 상수 정의 ---
-  private static readonly EARTH_RADIUS = 6_371_000.0; // TypeScript에서는 숫자 리터럴에 언더스코어 사용 가능
+  private static readonly EARTH_RADIUS = 6_371_000.0; // 지구 반지름 (미터)
 
   // --- 속도 계산 관련 상수 ---
-  private static readonly MPS_TO_KMH_SCALE = 3.6;
-  private static readonly EXPECTED_MAX_SPEED_KMH = 200.0;
+  private static readonly MPS_TO_KMH_SCALE = 3.6; // 초속(m/s)을 시속(km/h)으로 변환하는 스케일
+  private static readonly EXPECTED_MAX_SPEED_KMH = 200.0; // 속도 스케일링을 위한 예상 최대 속도 (km/h)
 
   // --- 클램핑 및 스케일링 범위 상수 ---
   private static readonly DISTANCE_MIN = 0;
-  private static readonly DISTANCE_MAX = 9_999_999;
+  private static readonly DISTANCE_MAX = 9_999_999; // 최대 거리 (미터)
   private static readonly SPEED_MIN = 0;
-  private static readonly SPEED_MAX = 255;
+  private static readonly SPEED_MAX = 255; // 최대 속도 (스케일링 후)
   private static readonly DIRECTION_MIN = 0;
-  private static readonly DIRECTION_MAX = 360;
+  private static readonly DIRECTION_MAX = 360; // 최대 방향 (도)
 
   /**
    * Haversine 공식을 사용하여 지구 표면상 두 GPS 지점 간의 최단 거리를 계산합니다.
@@ -23,19 +28,19 @@ export class MotionCalculator {
    * @param current 현재 GPS 지점 (위도, 경도)
    * @return 두 지점 간의 이동 거리 (미터 단위, 0 ~ 9,999,999 범위로 제한)
    */
-  public static calculateDistance(
-    previous: GpsInformation,
-    current: GpsInformation
-  ): number {
-    // 부동 소수점 비교는 주의해야 하지만, 여기서는 0인지 확인하는 단순 비교이므로 유지
-    if (previous.lon === current.lon && previous.lat === current.lat) {
+  public static calculateDistance(previous: Gps, current: Gps): number {
+    // 동일 지점인 경우 거리 0
+    if (
+      previous.longitude === current.longitude &&
+      previous.latitude === current.latitude
+    ) {
       return MotionCalculator.DISTANCE_MIN;
     }
 
-    const lat1 = previous.lat;
-    const lon1 = previous.lon;
-    const lat2 = current.lat;
-    const lon2 = current.lon;
+    const lat1 = previous.latitude;
+    const lon1 = previous.longitude;
+    const lat2 = current.latitude;
+    const lon2 = current.longitude;
 
     const toRadians = (deg: number) => deg * (Math.PI / 180);
 
@@ -68,19 +73,19 @@ export class MotionCalculator {
    * @return 스케일된 속도 (정수형, 0 ~ 255 범위)
    */
   public static calculateSpeed(
-    previous: GpsInformation,
-    current: GpsInformation
+    previous: GpsWithTime,
+    current: GpsWithTime
   ): number {
     const distanceMeters = MotionCalculator.calculateDistance(
-      previous,
-      current
+      new Gps(previous.latitude, previous.longitude),
+      new Gps(current.latitude, current.longitude)
     );
 
     // 시간 차이 계산 (밀리초)
     const timeMillis =
       current.intervalAt.getTime() - previous.intervalAt.getTime();
     if (timeMillis <= 0) {
-      return MotionCalculator.SPEED_MIN;
+      return MotionCalculator.SPEED_MIN; // 시간 차이가 없거나 음수면 속도는 0
     }
 
     const speedMps = distanceMeters / (timeMillis / 1000.0);
@@ -105,15 +110,13 @@ export class MotionCalculator {
    * @param current 현재 GPS 지점 (위도, 경도)
    * @return 방위각 (도, 0 ~ 360 범위)
    */
-  public static calculateDirection(
-    previous: GpsInformation,
-    current: GpsInformation
-  ): number {
-    const lat1 = previous.lat;
-    const lon1 = previous.lon;
-    const lat2 = current.lat;
-    const lon2 = current.lon;
+  public static calculateDirection(previous: Gps, current: Gps): number {
+    const lat1 = previous.latitude;
+    const lon1 = previous.longitude;
+    const lat2 = current.latitude;
+    const lon2 = current.longitude;
 
+    // 동일 지점인 경우 방향 0
     if (lat1 === lat2 && lon1 === lon2) {
       return MotionCalculator.DIRECTION_MIN;
     }
