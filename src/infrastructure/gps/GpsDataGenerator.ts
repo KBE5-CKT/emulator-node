@@ -118,7 +118,6 @@ export class GpsDataGenerator implements IGpsDataGenerator {
         this.createGpsFromGpx(currentPoint),
         this.createGpsFromGpx(nextPoint)
       );
-      console.log("distance > ", distance);
 
       const estimatedTimeMs =
         (distance / GpsDataGenerator.ASSUMED_SPEED_MPS) * 1000;

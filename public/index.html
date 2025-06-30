@@ -3,28 +3,88 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>에뮬레이터 제어</title>
+    <title>차량 에뮬레이터 제어</title>
     <style>
       body {
         font-family: Arial, sans-serif;
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        /* flex-direction: column; */
+        align-items: flex-start; /* 상단 정렬 */
         justify-content: center;
         height: 100vh;
         margin: 0;
         background-color: #f4f4f4;
+        padding-top: 50px; /* 상단 여백 추가 */
       }
-      .container {
+      .main-container {
+        display: flex;
         background-color: #fff;
-        padding: 30px;
+        padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
       }
-      h1 {
+      .vehicle-list-container {
+        width: 200px;
+        margin-right: 20px;
+        border-right: 1px solid #eee;
+        padding-right: 20px;
+      }
+      .vehicle-list-container h2 {
+        margin-top: 0;
         color: #333;
       }
+      .vehicle-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .vehicle-list li {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.2s ease;
+      }
+      .vehicle-list li:last-child {
+        border-bottom: none;
+      }
+      .vehicle-list li:hover {
+        background-color: #f0f0f0;
+      }
+      .vehicle-list li.selected {
+        background-color: #e0e0e0;
+        font-weight: bold;
+      }
+
+      .emulator-control-container {
+        text-align: center;
+        flex-grow: 1; /* 남은 공간 차지 */
+        min-width: 300px; /* 최소 너비 설정 */
+      }
+      .emulator-control-container h1 {
+        margin-top: 0;
+        color: #333;
+      }
+      /* New: 경로 선택 드롭다운 스타일 추가 */
+      .route-selection {
+        margin-bottom: 15px; /* 버튼 위 간격 */
+      }
+      .route-selection label {
+        font-size: 15px;
+        font-weight: bold;
+        margin-right: 5px;
+      }
+      .route-selection select {
+        padding: 6px 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .route-selection select:disabled {
+        /* 비활성화 시 스타일 */
+        background-color: #f0f0f0;
+        cursor: not-allowed;
+      }
+
       .controls button {
         padding: 10px 20px;
         font-size: 16px;
@@ -67,13 +127,32 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>차량 에뮬레이터 제어</h1>
-      <div class="controls">
-        <button id="startButton">시동 ON / 운행 시작</button>
-        <button id="stopButton">시동 OFF / 운행 중지</button>
+    <div class="main-container">
+      <div class="vehicle-list-container">
+        <h2>차량 목록</h2>
+        <ul id="vehicleList" class="vehicle-list"></ul>
       </div>
-      <div id="statusDisplay" class="status-display">상태: 로딩 중...</div>
+
+      <div
+        id="emulatorControl"
+        class="emulator-control-container"
+        style="display: none"
+      >
+        <h1><span id="selectedVehicleName"></span></h1>
+
+        <div class="route-selection">
+          <label for="routeSelect">경로 선택:</label>
+          <select id="routeSelect">
+            <option value="">경로 로딩 중...</option>
+          </select>
+        </div>
+
+        <div class="controls">
+          <button id="startButton">시동 ON / 운행 시작</button>
+          <button id="stopButton">시동 OFF / 운행 중지</button>
+        </div>
+        <div id="statusDisplay" class="status-display">상태: 로딩 중...</div>
+      </div>
     </div>
 
     <script src="index.js"></script>

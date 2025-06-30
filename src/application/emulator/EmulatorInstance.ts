@@ -6,6 +6,7 @@ import { GpsDataGenerator } from "@/infrastructure/gps/GpsDataGenerator";
 import { GpsInformation } from "@/domain/vo/GpsInformation";
 
 import { GpxTrackPoint } from "@/utils/GpxParser";
+import { EmulatorState } from "./type";
 
 /**
  * 단일 차량 에뮬레이터의 생명 주기와 데이터 전송을 관리합니다.
@@ -13,7 +14,6 @@ import { GpxTrackPoint } from "@/utils/GpxParser";
  */
 export class EmulatorInstance {
   private vehicleId: string;
-  private config: Config;
   private apiClient: IServerApiClient;
   private gpsGenerator: GpsDataGenerator;
   private generatedGpsDataBuffer: GpsInformation[];
@@ -23,8 +23,7 @@ export class EmulatorInstance {
   private gpsGeneratorInterval: NodeJS.Timeout | undefined; // GPS 데이터 생성 인터벌 타이머 ID
   private serverSenderInterval: NodeJS.Timeout | undefined; // 서버로 데이터 전송 인터벌 타이머 ID
 
-  private isRunning: boolean = false; // GPS 데이터 생성 및 전송 인터벌 활성 상태
-  private isEngineOn: boolean = false; // 차량 시동 ON/OFF 상태
+  private status: EmulatorState = "pending";
 
   private gpxTrackPoints: GpxTrackPoint[];
 
@@ -34,12 +33,10 @@ export class EmulatorInstance {
   constructor(
     vehicleId: string,
     gpxTrackPoints: GpxTrackPoint[],
-    config: Config,
     apiClient: IServerApiClient
   ) {
     this.vehicleId = vehicleId;
     this.gpxTrackPoints = gpxTrackPoints;
-    this.config = config;
     this.apiClient = apiClient;
     this.generatedGpsDataBuffer = [];
 
@@ -59,7 +56,7 @@ export class EmulatorInstance {
    * @throws {Error} GPS 정보를 가져올 수 없거나, 시동 ON/시작 중 오류 발생 시
    */
   async start(): Promise<void> {
-    if (this.isRunning) {
+    if (this.isStatusRunning()) {
       console.warn(
         `[${this.vehicleId}] 시동 ON 요청 무시: 에뮬레이터가 이미 실행 중입니다.`
       );
@@ -91,8 +88,7 @@ export class EmulatorInstance {
       }
 
       await this.apiClient.sendOnRequest(currentGpsInfo, this.onTime);
-      this.isEngineOn = true;
-      this.isRunning = true;
+      this.setStatus("running");
       this.startIntervals();
 
       console.log(
@@ -115,7 +111,7 @@ export class EmulatorInstance {
    * @throws {Error} OFF 요청 전송 실패 시
    */
   async stop(): Promise<void> {
-    if (!this.isEngineOn) {
+    if (!this.isStatusRunning()) {
       console.warn(
         `[${this.vehicleId}] 시동 OFF 요청 무시: 시동이 이미 꺼진 상태입니다.`
       );
@@ -124,7 +120,7 @@ export class EmulatorInstance {
 
     console.log(`[${this.vehicleId}] 시동 OFF 요청 처리 시작...`);
     this.stopIntervals(); // 모든 인터벌 중지
-    this.isRunning = false; // GPS 데이터 생성 및 전송 중지
+    this.setStatus("stopped");
 
     try {
       // 시동 OFF 직전까지 생성된 남아있는 버퍼 데이터를 최종 전송합니다.
@@ -142,7 +138,7 @@ export class EmulatorInstance {
       // 서버에 시동 OFF 요청을 전송합니다.
       await this.apiClient.sendOffRequest(currentGpsInfo, this.onTime, offTime);
 
-      this.isEngineOn = false; // 시동 꺼짐 상태로 변경
+      this.setStatus("stopped");
       console.log(
         `[${this.vehicleId}] 시동 OFF 요청 성공. 에뮬레이터 운행 중지.`
       );
@@ -151,7 +147,7 @@ export class EmulatorInstance {
         `[${this.vehicleId}] 시동 OFF 요청 실패: ${error.message}`,
         error
       );
-      this.isEngineOn = false; // 오류가 발생했더라도 시동은 꺼진 것으로 간주
+      this.setStatus("stopped");
       throw error;
     }
   }
@@ -166,7 +162,6 @@ export class EmulatorInstance {
     );
 
     this.stopIntervals();
-    this.isRunning = false;
 
     try {
       await this.sendBufferedGpsData(true);
@@ -192,7 +187,7 @@ export class EmulatorInstance {
       Config.EMULATOR_INTERVAL_MS
     );
     this.onTime = null; // 운행이 끝났으므로 onTime 초기화
-    this.isEngineOn = false; // 운행 종료 시 시동도 꺼진 것으로 간주
+    this.setStatus("pending");
 
     console.log(`[${this.vehicleId}] 운행이 정상적으로 종료되었습니다.`);
   }
@@ -204,8 +199,8 @@ export class EmulatorInstance {
   public hardStop(): void {
     console.log(`[${this.vehicleId}] 에뮬레이터 강제 중지 및 초기화 중...`);
     this.stopIntervals();
-    this.isRunning = false;
-    this.isEngineOn = false;
+    this.setStatus("pending");
+
     this.onTime = null;
     this.generatedGpsDataBuffer = []; // 버퍼 비우기
 
@@ -304,17 +299,31 @@ export class EmulatorInstance {
     }
   }
 
-  /**
-   * 현재 에뮬레이터가 GPS 데이터를 생성하고 전송 중인지 여부를 반환합니다.
-   */
-  public getIsRunning(): boolean {
-    return this.isRunning;
+  private isStatusPending(): boolean {
+    return this.status === "pending";
+  }
+
+  private isStatusRunning(): boolean {
+    return this.status === "running";
+  }
+
+  private isStatusStopped(): boolean {
+    return this.status === "stopped";
+  }
+
+  public getStatus(): EmulatorState {
+    return this.status;
+  }
+
+  public setStatus(status: EmulatorState): void {
+    this.status = status;
   }
 
   /**
-   * 현재 에뮬레이터의 시동이 켜져 있는지 여부를 반환합니다.
+   * 애뮬레이터의 식별자를 반환합니다.
+   * @returns 애뮬레이터 ID
    */
-  public getIsEngineOn(): boolean {
-    return this.isEngineOn;
+  public getId(): string {
+    return this.vehicleId;
   }
 }
