@@ -138,6 +138,7 @@ export class EmulatorInstance {
       // 서버에 시동 OFF 요청을 전송합니다.
       await this.apiClient.sendOffRequest(currentGpsInfo, this.onTime, offTime);
 
+      this.onTime = null; // 운행이 끝났으므로 onTime 초기화
       this.setStatus("stopped");
       console.log(
         `[${this.vehicleId}] 시동 OFF 요청 성공. 에뮬레이터 운행 중지.`
