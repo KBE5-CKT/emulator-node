@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const routeSelect = document.getElementById("routeSelect"); // New: 경로 선택 드롭다운 요소 추가
 
-  const API_BASE_URL = "http://localhost:3000/api";
+  const API_BASE_URL = "http://192.168.1.75:3000/api";
 
   let selectedEmulatorId = null;
   let selectedRouteId = null; // New: 선택된 경로 ID를 저장할 변수
@@ -162,11 +162,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (!selectedRouteId || routeSelect.disabled) {
-      alert("경로를 선택하거나, 현재 상태에서는 경로를 변경할 수 없습니다.");
-      return;
-    }
-
     try {
       const response = await fetch(
         `${API_BASE_URL}/start/${selectedEmulatorId}`,
@@ -198,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     try {
       const response = await fetch(
-        `${API_BASE_URL}/start/${selectedEmulatorId}`,
+        `${API_BASE_URL}/stop/${selectedEmulatorId}`,
         {
           method: "POST",
           headers: {
