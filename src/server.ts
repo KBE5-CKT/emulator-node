@@ -32,11 +32,27 @@ async function initializeServer(): Promise<void> {
 
 app.get("/api/vehicle/list", (req, res) => {
   const emulators = [
-    { id: "100", name: "차량 100" },
-    { id: "99", name: "차량 99" },
-    { id: "98", name: "차량 98" },
-    { id: "97", name: "차량 97" },
-    { id: "96", name: "차량 96" },
+    { id: "151", name: "차량 151" },
+    { id: "20", name: "차량 20" },
+    { id: "19", name: "차량 19" },
+    { id: "18", name: "차량 18" },
+    { id: "17", name: "차량 17" },
+    { id: "16", name: "차량 16" },
+    { id: "15", name: "차량 15" },
+    { id: "14", name: "차량 14" },
+    { id: "13", name: "차량 13" },
+    { id: "12", name: "차량 12" },
+    { id: "11", name: "차량 11" },
+    { id: "10", name: "차량 10" },
+    { id: "9", name: "차량 9" },
+    { id: "8", name: "차량 8" },
+    { id: "7", name: "차량 7" },
+    { id: "6", name: "차량 6" },
+    { id: "5", name: "차량 5" },
+    { id: "4", name: "차량 4" },
+    { id: "3", name: "차량 3" },
+    { id: "2", name: "차량 2" },
+    { id: "1", name: "차량 1" },
   ];
   res.json(emulators);
 });
@@ -44,6 +60,7 @@ app.get("/api/vehicle/list", (req, res) => {
 app.get("/api/route/list", (req, res) => {
   const emulators = [
     { id: "namsan_loop", name: "남산 주변" },
+    { id: "miwong-to-suwon", name: "미왕빌딩 - 수원역" },
     { id: "gwangju-to-muju_formatted", name: "광주 - 무주" },
     { id: "gyeongju-to-seoul_no_ns", name: "경주 - 서울" },
     { id: "seoul-to-gyeongju_formatted", name: "서울 - 경주" },
@@ -128,7 +145,7 @@ app.get("/api/status/:id", (req: Request, res: Response) => {
 });
 
 // 서버 시작 및 초기화 로직
-app.listen(PORT, async () => {
+app.listen(Number(PORT), "0.0.0.0", async () => {
   await initializeServer();
 });
 
