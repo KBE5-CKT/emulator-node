@@ -14,7 +14,7 @@ import { GpxTrackPoint } from "@/utils/GpxParser";
 export class GpsDataGenerator implements IGpsDataGenerator {
   // --- 상수 정의 ---
   private static readonly MIN_GPX_POINTS = 2;
-  private static readonly ASSUMED_SPEED_MPS = 50; // 약 180km/h
+  private static readonly ASSUMED_SPEED_MPS = 30; // 약 108km/h (25 -> 90km/h)
   private static readonly POSITION_NOISE_MAGNITUDE = 0.0001; // 작은 위치 노이즈
 
   private mdn: string;
