@@ -4,6 +4,7 @@ import { Config } from "@/infrastructure/config/Config";
 import { ServerApiClient } from "@/infrastructure/extenal/ServerApiClient";
 import { GpxParser, GpxTrackPoint } from "@/utils/GpxParser";
 import { EmulatorState } from "./emulator/type";
+import path from "path";
 
 export class App {
   private emulators: Map<string, EmulatorInstance> = new Map();
@@ -46,7 +47,7 @@ export class App {
     }
 
     const gpxTrackPoints = await GpxParser.parseGpxFile(
-      `./src/assets/${route}.gpx`
+      path.join(process.cwd(), "assets", `${route}.gpx`)
     );
 
     const apiClient = new ServerApiClient(
