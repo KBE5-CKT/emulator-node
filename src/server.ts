@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import path from "path";
 
 import { App } from "./application/App";
-import { EmulatorState } from "./application/emulator/type";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,42 +29,32 @@ async function initializeServer(): Promise<void> {
   }
 }
 
-app.get("/api/vehicle/list", (req, res) => {
-  const emulators = [
-    { id: "151", name: "차량 151" },
-    { id: "20", name: "차량 20" },
-    { id: "19", name: "차량 19" },
-    { id: "18", name: "차량 18" },
-    { id: "17", name: "차량 17" },
-    { id: "16", name: "차량 16" },
-    { id: "15", name: "차량 15" },
-    { id: "14", name: "차량 14" },
-    { id: "13", name: "차량 13" },
-    { id: "12", name: "차량 12" },
-    { id: "11", name: "차량 11" },
-    { id: "10", name: "차량 10" },
-    { id: "9", name: "차량 9" },
-    { id: "8", name: "차량 8" },
-    { id: "7", name: "차량 7" },
-    { id: "6", name: "차량 6" },
-    { id: "5", name: "차량 5" },
-    { id: "4", name: "차량 4" },
-    { id: "3", name: "차량 3" },
-    { id: "2", name: "차량 2" },
-    { id: "1", name: "차량 1" },
-  ];
-  res.json(emulators);
+app.get("/emulator/:id", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "emulator.html"));
+});
+
+app.get("/emulator", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+});
+
+app.get("/health", (req: Request, res: Response) => {
+  res.status(200).send("OK");
 });
 
 app.get("/api/route/list", (req, res) => {
   const emulators = [
     { id: "namsan_loop", name: "남산 주변" },
     { id: "miwong-to-suwon", name: "미왕빌딩 - 수원역" },
+    { id: "miwong-to-nowon", name: "미왕빌딩 - 노원역" },
+    { id: "miwong-to-seoul-station", name: "미왕빌딩 - 서울역" },
+    { id: "miwong-to-chunho", name: "미왕빌딩 - 천호" },
+    { id: "miwong-to-daejeon-sungsimdang", name: "미왕빌딩 - 대전 성심당" },
+    { id: "mokdong-to-siheung", name: "목동 - 시흥" },
     { id: "gwangju-to-muju_formatted", name: "광주 - 무주" },
     { id: "gyeongju-to-seoul_no_ns", name: "경주 - 서울" },
-    { id: "seoul-to-gyeongju_formatted", name: "서울 - 경주" },
-    { id: "suwon-daejon-gumi-optimized", name: "수원 - 대전 - 구미" },
     { id: "yangyang-to-daegu_formatted", name: "양주 - 대구" },
+    { id: "suwon-daejon-gumi-optimized", name: "수원 - 대전 - 구미" },
+    { id: "seoul-to-gyeongju_formatted", name: "서울 - 경주" },
     { id: "yeosu-to-cheonan_formatted", name: "여수 - 천안" },
   ];
   res.json(emulators);
@@ -145,8 +134,14 @@ app.get("/api/status/:id", (req: Request, res: Response) => {
 });
 
 // 서버 시작 및 초기화 로직
-app.listen(Number(PORT), "0.0.0.0", async () => {
-  await initializeServer();
+app.listen(Number(PORT), async () => {
+  try {
+    await initializeServer();
+    console.log(`Express server listening on port ${PORT}`);
+  } catch (error) {
+    console.error("Failed to initialize server. Exiting...", error);
+    process.exit(1);
+  }
 });
 
 // 프로세스 종료 시그널 처리 (Graceful Shutdown)
