@@ -96,6 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       const data = await response.json();
       const status = data.status;
+      const route = data.route;
+
+      if (route) {
+        routeSelect.value = route;
+      }
 
       if (status === "running") {
         statusDisplay.textContent = "상태: 시동 ON";

@@ -24,6 +24,7 @@ export class EmulatorInstance {
   private serverSenderInterval: NodeJS.Timeout | undefined; // 서버로 데이터 전송 인터벌 타이머 ID
 
   private status: EmulatorState = "pending";
+  private route: string;
 
   private gpxTrackPoints: GpxTrackPoint[];
 
@@ -32,10 +33,12 @@ export class EmulatorInstance {
    */
   constructor(
     vehicleId: string,
+    route: string,
     gpxTrackPoints: GpxTrackPoint[],
     apiClient: IServerApiClient
   ) {
     this.vehicleId = vehicleId;
+    this.route = route;
     this.gpxTrackPoints = gpxTrackPoints;
     this.apiClient = apiClient;
     this.generatedGpsDataBuffer = [];
@@ -316,6 +319,10 @@ export class EmulatorInstance {
 
   public setStatus(status: EmulatorState): void {
     this.status = status;
+  }
+
+  public getRoute(): string {
+    return this.route;
   }
 
   /**

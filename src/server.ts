@@ -117,8 +117,9 @@ app.get("/api/status/:id", (req: Request, res: Response) => {
   try {
     console.debug(`[Emulator API] 시동 상태 요청 처리 시작`);
     const currentStatus = emulatorApp.currentStatus(id);
+    const currentRoute = emulatorApp.currentRoute(id);
 
-    return res.status(200).json({ status: currentStatus });
+    return res.status(200).json({ status: currentStatus, route: currentRoute });
   } catch (error: any) {
     console.error(
       "[Emulator API ERROR] 시동 상태 요청 처리 중 치명적인 오류 발생:",

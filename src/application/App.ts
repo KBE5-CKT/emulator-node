@@ -61,6 +61,7 @@ export class App {
       );
       const emulatorInstance = new EmulatorInstance(
         emulatorId,
+        route,
         gpxTrackPoints,
         apiClient
       );
@@ -115,5 +116,14 @@ export class App {
     }
 
     return emulator.getStatus();
+  }
+
+  public currentRoute(emulatorId: string): string {
+    const emulator = this.emulators.get(emulatorId);
+    if (!emulator) {
+      return "";
+    }
+
+    return emulator.getRoute();
   }
 }
