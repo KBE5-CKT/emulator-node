@@ -47,7 +47,7 @@ export class App {
     }
 
     const emulator = this.emulators.get(emulatorId);
-    if (emulator) {
+    if (emulator && emulator.getStatus() !== "pending") {
       console.debug("[Emulator] 기존의 경로로 계속 시작");
       await emulator!.start();
     } else {

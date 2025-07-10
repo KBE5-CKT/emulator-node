@@ -174,21 +174,19 @@ export class EmulatorInstance {
       );
       this.onTime = null; // 운행이 끝났으므로 onTime 초기화
       this.setStatus("pending");
+
+      // GpsDataGenerator를 초기화하여 다음 운행을 처음부터 시작할 수 있도록 준비합니다.
+      this.gpsGenerator = new GpsDataGenerator(
+        this.vehicleId,
+        this.gpxTrackPoints,
+        Config.EMULATOR_INTERVAL_MS
+      );
     } catch (error: any) {
       console.error(
         `[${this.vehicleId}] GPX 경로 완료 후 시동 OFF 요청 실패: ${error.message}`,
         error
       );
     }
-
-    // GpsDataGenerator를 초기화하여 다음 운행을 처음부터 시작할 수 있도록 준비합니다.
-    this.gpsGenerator = new GpsDataGenerator(
-      this.vehicleId,
-      this.gpxTrackPoints,
-      Config.EMULATOR_INTERVAL_MS
-    );
-    this.onTime = null; // 운행이 끝났으므로 onTime 초기화
-    this.setStatus("pending");
 
     console.log(`[${this.vehicleId}] 운행이 정상적으로 종료되었습니다.`);
   }
