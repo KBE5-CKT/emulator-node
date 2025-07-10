@@ -46,23 +46,29 @@ export class App {
       throw new Error("에뮬레이터 시스템이 초기화되지 않았습니다.");
     }
 
-    const gpxTrackPoints = await GpxParser.parseGpxFile(
-      path.join(process.cwd(), "assets", `${route}.gpx`)
-    );
-
-    const apiClient = new ServerApiClient(
-      this.config.serverEndpoint,
-      emulatorId
-    );
-    const emulatorInstance = new EmulatorInstance(
-      emulatorId,
-      gpxTrackPoints,
-      apiClient
-    );
-
-    this.emulators.set(emulatorId, emulatorInstance);
     const emulator = this.emulators.get(emulatorId);
-    await emulator!.start();
+    if (emulator) {
+      console.debug("[Emulator] 기존의 경로로 계속 시작");
+      await emulator!.start();
+    } else {
+      const gpxTrackPoints = await GpxParser.parseGpxFile(
+        path.join(process.cwd(), "assets", `${route}.gpx`)
+      );
+
+      const apiClient = new ServerApiClient(
+        this.config.serverEndpoint,
+        emulatorId
+      );
+      const emulatorInstance = new EmulatorInstance(
+        emulatorId,
+        gpxTrackPoints,
+        apiClient
+      );
+
+      this.emulators.set(emulatorId, emulatorInstance);
+      const emulator = this.emulators.get(emulatorId);
+      await emulator!.start();
+    }
 
     console.debug("[Emulator] 시동 ON 완료");
   }

@@ -138,7 +138,6 @@ export class EmulatorInstance {
       // 서버에 시동 OFF 요청을 전송합니다.
       await this.apiClient.sendOffRequest(currentGpsInfo, this.onTime, offTime);
 
-      this.onTime = null; // 운행이 끝났으므로 onTime 초기화
       this.setStatus("stopped");
       console.log(
         `[${this.vehicleId}] 시동 OFF 요청 성공. 에뮬레이터 운행 중지.`
@@ -148,7 +147,6 @@ export class EmulatorInstance {
         `[${this.vehicleId}] 시동 OFF 요청 실패: ${error.message}`,
         error
       );
-      this.setStatus("stopped");
       throw error;
     }
   }
@@ -174,6 +172,8 @@ export class EmulatorInstance {
       console.log(
         `[${this.vehicleId}] GPX 경로 완료에 따른 시동 OFF 요청 성공.`
       );
+      this.onTime = null; // 운행이 끝났으므로 onTime 초기화
+      this.setStatus("pending");
     } catch (error: any) {
       console.error(
         `[${this.vehicleId}] GPX 경로 완료 후 시동 OFF 요청 실패: ${error.message}`,

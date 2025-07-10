@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         statusDisplay.className = "status-display status-stopped";
         startButton.disabled = false;
         stopButton.disabled = true;
-        routeSelect.disabled = false;
+        routeSelect.disabled = true;
       } else {
         statusDisplay.textContent = "상태: 대기 중";
         statusDisplay.className = "status-display status-stopped";
