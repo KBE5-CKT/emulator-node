@@ -69,17 +69,7 @@ export class EmulatorInstance {
     console.log(`[${this.vehicleId}] 시동 ON 요청 처리 시작...`);
 
     try {
-      // 이전에 ON 요청이 없었다면 현재 시각을 운행 시작 시간으로 설정합니다.
-      if (this.onTime === null) {
-        console.warn(
-          `[${this.vehicleId}] 이전 운행 정보가 없어 현재 시각을 운행 시작 시간으로 설정합니다.`
-        );
-        this.onTime = new Date();
-      } else {
-        console.log(
-          `[${this.vehicleId}] 에뮬레이션 이어가기: 이전 지점부터 운행을 재개합니다.`
-        );
-      }
+      this.onTime = new Date();
 
       const currentGpsInfo = this.gpsGenerator.getCurrentGpsInfo();
       if (!currentGpsInfo) {
